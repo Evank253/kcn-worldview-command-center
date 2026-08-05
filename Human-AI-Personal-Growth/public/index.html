@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KCN Human AI Personal Growth</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #06040f;
+      --panel: rgba(15, 10, 30, 0.7);
+      --border: rgba(167, 139, 250, 0.15);
+      --accent: #a78bfa;
+      --text: #f5f3ff;
+      --muted: #c4b5fd;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .aurora {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 40%, rgba(139, 92, 246, 0.12), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 60%, rgba(99, 102, 241, 0.1), transparent),
+        radial-gradient(ellipse 50% 30% at 50% 80%, rgba(167, 139, 250, 0.08), transparent);
+      animation: auroraShift 18s ease-in-out infinite alternate;
+    }
+    @keyframes auroraShift {
+      0% { opacity: 0.8; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.05); }
+    }
+    header {
+      position: relative; z-index: 10;
+      padding: 1rem 1.75rem;
+      background: rgba(6, 4, 15, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .logo { display: flex; align-items: center; gap: 0.75rem; }
+    .logo-mark {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; font-weight: 600; color: white;
+    }
+    header h1 { font-size: 1.05rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: #c4b5fd; }
+    .status-bar {
+      display: flex; align-items: center; gap: 1.25rem;
+      font-size: 0.7rem; color: #6b7280; font-family: 'JetBrains Mono', monospace;
+    }
+    main {
+      flex: 1; display: grid; grid-template-columns: 300px 1fr 300px;
+      position: relative; z-index: 5;
+    }
+    .panel {
+      background: var(--panel); backdrop-filter: blur(28px);
+      border-right: 1px solid var(--border);
+      padding: 1.4rem; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 1.4rem;
+    }
+    .panel:last-child { border-right: none; border-left: 1px solid var(--border); }
+    .section-label {
+      font-size: 0.65rem; text-transform: uppercase;
+      letter-spacing: 0.16em; color: #6b7280; font-weight: 500;
+    }
+    .card {
+      background: rgba(30, 20, 50, 0.5);
+      border: 1px solid rgba(167, 139, 250, 0.12);
+      border-radius: 14px; padding: 1.1rem;
+      transition: all 0.25s ease;
+    }
+    .card:hover {
+      border-color: rgba(167, 139, 250, 0.3);
+      background: rgba(30, 20, 50, 0.7);
+    }
+    .card h3 {
+      font-size: 0.85rem; font-weight: 500; color: #ddd6fe;
+      margin-bottom: 0.45rem;
+    }
+    .card p { font-size: 0.8rem; color: #a5b4fc; line-height: 1.5; }
+    .tag {
+      display: inline-block;
+      background: rgba(139, 92, 246, 0.2);
+      color: #c4b5fd; font-size: 0.68rem;
+      padding: 0.25rem 0.55rem; border-radius: 6px;
+      margin: 0.15rem 0.15rem 0.15rem 0;
+    }
+    .center {
+      padding: 1.5rem 2rem; overflow-y: auto;
+      display: flex; flex-direction: column; gap: 1.5rem;
+    }
+    .chat {
+      background: rgba(30, 20, 50, 0.55);
+      border: 1px solid rgba(167, 139, 250, 0.15);
+      border-radius: 16px; padding: 1.4rem;
+      font-size: 0.9rem; color: #c4b5fd; line-height: 1.65;
+      min-height: 220px; position: relative;
+    }
+    .chat::before {
+      content: 'AI Companion';
+      position: absolute; top: -0.6rem; left: 1.2rem;
+      background: var(--bg); padding: 0 0.5rem;
+      font-size: 0.65rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #8b5cf6;
+    }
+    .privacy-note {
+      font-size: 0.72rem; color: #6b7280; line-height: 1.5;
+      padding: 0.9rem; background: rgba(15, 10, 30, 0.6);
+      border-radius: 10px; border: 1px solid rgba(167, 139, 250, 0.08);
+    }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #4c1d95; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="aurora"></div>
+  <header>
+    <div class="logo">
+      <div class="logo-mark">H</div>
+      <h1>Human AI Personal Growth</h1>
+    </div>
+    <div class="status-bar">
+      <span>PRIVATE SESSION</span>
+      <span>MEMORY: USER-CONTROLLED</span>
+    </div>
+  </header>
+  <main>
+    <div class="panel">
+      <div>
+        <div class="section-label">Personal Discovery Profile</div>
+        <div class="card" style="margin-top:0.7rem">
+          <h3>Core Traits</h3>
+          <p>★ Systems Thinker<br/>★ Creative Builder<br/>★ Curious Researcher</p>
+        </div>
+        <div class="card">
+          <h3>Observed Interests</h3>
+          <span class="tag">Artificial Intelligence</span>
+          <span class="tag">Technology</span>
+          <span class="tag">Philosophy</span>
+          <span class="tag">Design</span>
+          <span class="tag">Problem Solving</span>
+        </div>
+        <div class="card">
+          <h3>Learning Style</h3>
+          <p>Visual · Hands-on · Analytical · Discussion-based</p>
+        </div>
+        <div class="card">
+          <h3>Motivations</h3>
+          <p>Building things · Discovering ideas · Solving complex problems · Creating systems that help others</p>
+        </div>
+      </div>
+      <div class="privacy-note">
+        You control everything the AI remembers, what enters your profile, and what is ever shared. The system never secretly judges personality or limits your potential.
+      </div>
+    </div>
+    <div class="center">
+      <div>
+        <div class="section-label">Human + AI Partnership</div>
+        <div class="chat" style="margin-top:0.8rem">
+          I’ve noticed you repeatedly return to designing systems and exploring how technology connects with human knowledge.<br/><br/>
+          Would you like to explore careers, projects, or skill paths related to those interests?<br/><br/>
+          <span style="opacity:0.7;font-size:0.85rem">These are observations and suggestions only — never fixed labels.</span>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">AI Career & Skills Map</div>
+        <div class="card" style="margin-top:0.7rem">
+          <h3>Potential Strength Areas</h3>
+          <p>Product development · Research · Innovation · Engineering · Creative technology · Systems architecture</p>
+        </div>
+        <div class="card">
+          <h3>How this map is built</h3>
+          <p>Instead of asking “What job do you want?”, the companion observes the activities that make you lose track of time and the problems you naturally enjoy solving.</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <div>
+        <div class="section-label">Living Portfolio</div>
+        <div class="card" style="margin-top:0.7rem">
+          <h3>Proof-of-Skill System</h3>
+          <p>Projects completed, challenges solved, tutorials finished, simulations built, and contributions made become living evidence — not just claims.</p>
+        </div>
+        <div class="card">
+          <h3>AI Resume Builder</h3>
+          <p>Traditional resume + skills-based portfolio + personal mission statement generated from your actual patterns.</p>
+        </div>
+        <div class="card">
+          <h3>Example Mission</h3>
+          <p style="font-style:italic;color:#ddd6fe">“I am a systems-oriented creator interested in combining technology, artificial intelligence, and human-centered design to solve complex problems.”</p>
+        </div>
+      </div>
+      <div>
+        <div class="section-label">Export & Control</div>
+        <div class="card" style="margin-top:0.7rem">
+          <h3>You decide</h3>
+          <p>• What the AI remembers<br/>• What goes into your profile<br/>• Whether a resume is generated<br/>• What is shared externally</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
