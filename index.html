@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KCN Command Center — Launcher</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      background: #030712;
+      color: #e2e8f0;
+      font-family: 'Inter', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+    .bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 50% at 20% 30%, rgba(56, 189, 248, 0.08), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 70%, rgba(167, 139, 250, 0.07), transparent),
+        radial-gradient(ellipse 50% 30% at 50% 50%, rgba(52, 211, 153, 0.05), transparent);
+    }
+    .container { position: relative; z-index: 1; max-width: 1100px; width: 100%; }
+    header { text-align: center; margin-bottom: 3rem; }
+    .logo {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+    .logo-mark {
+      width: 42px; height: 42px; border-radius: 12px;
+      background: linear-gradient(135deg, #38bdf8, #8b5cf6, #34d399);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.1rem; color: white;
+    }
+    h1 {
+      font-size: 1.8rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; background: linear-gradient(90deg, #e2e8f0, #94a3b8);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .subtitle {
+      font-size: 0.95rem; color: #64748b; margin-top: 0.5rem;
+    }
+    .owner-badge {
+      display: inline-block; margin-top: 1rem;
+      padding: 0.35rem 0.9rem; border-radius: 100px;
+      background: rgba(52, 211, 153, 0.1); border: 1px solid rgba(52, 211, 153, 0.25);
+      font-size: 0.7rem; color: #34d399; letter-spacing: 0.05em;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.25rem;
+    }
+    .card {
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.12);
+      border-radius: 16px;
+      padding: 1.5rem;
+      text-decoration: none; color: inherit;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; flex-direction: column; gap: 0.75rem;
+      backdrop-filter: blur(12px);
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(148, 163, 184, 0.3);
+      box-shadow: 0 20px 40px -15px rgba(0,0,0,0.5);
+    }
+    .card.worldview:hover { border-color: rgba(56, 189, 248, 0.4); box-shadow: 0 20px 40px -15px rgba(56, 189, 248, 0.15); }
+    .card.cyber:hover { border-color: rgba(248, 113, 113, 0.4); box-shadow: 0 20px 40px -15px rgba(248, 113, 113, 0.15); }
+    .card.nano:hover { border-color: rgba(52, 211, 153, 0.4); box-shadow: 0 20px 40px -15px rgba(52, 211, 153, 0.15); }
+    .card.growth:hover { border-color: rgba(167, 139, 250, 0.4); box-shadow: 0 20px 40px -15px rgba(167, 139, 250, 0.15); }
+    .card-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; font-size: 1rem; color: white;
+    }
+    .worldview .card-icon { background: linear-gradient(135deg, #0ea5e9, #6366f1); }
+    .cyber .card-icon { background: linear-gradient(135deg, #ef4444, #7f1d1d); }
+    .nano .card-icon { background: linear-gradient(135deg, #10b981, #059669); }
+    .growth .card-icon { background: linear-gradient(135deg, #8b5cf6, #6366f1); }
+    .card h2 { font-size: 1.05rem; font-weight: 500; }
+    .card p { font-size: 0.8rem; color: #94a3b8; line-height: 1.5; flex: 1; }
+    .card .launch {
+      font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase;
+      color: #64748b; margin-top: 0.5rem;
+    }
+    footer {
+      margin-top: 3rem; text-align: center; font-size: 0.75rem; color: #475569;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="container">
+    <header>
+      <div class="logo">
+        <div class="logo-mark">K</div>
+        <h1>KCN Command Center</h1>
+      </div>
+      <p class="subtitle">Four independent systems · Built for the creator</p>
+      <div class="owner-badge">OWNER ACCESS — FULLY FREE</div>
+    </header>
+
+    <div class="grid">
+      <a class="card worldview" href="Worldview/public/index.html" target="_blank">
+        <div class="card-icon">W</div>
+        <h2>Worldview</h2>
+        <p>Intelligence & knowledge-graph platform. Interactive 3D globe, entity relationships, multi-source fusion.</p>
+        <div class="launch">Launch System →</div>
+      </a>
+
+      <a class="card cyber" href="Cyber-Security-HQ/public/index.html" target="_blank">
+        <div class="card-icon">C</div>
+        <h2>Cyber Security HQ</h2>
+        <p>Dedicated cyber globe, live event stream, systems health, OSINT & public surveillance awareness (including Deflock).</p>
+        <div class="launch">Launch System →</div>
+      </a>
+
+      <a class="card nano" href="Nano-Banana-World-Design/public/index.html" target="_blank">
+        <div class="card-icon">N</div>
+        <h2>Nano Banana World Design</h2>
+        <p>Full virtual architecture platform. 3D design, AI design swarm, materials, costing, code compliance, job tracking.</p>
+        <div class="launch">Launch System →</div>
+      </a>
+
+      <a class="card growth" href="Human-AI-Personal-Growth/public/index.html" target="_blank">
+        <div class="card-icon">H</div>
+        <h2>Human AI Personal Growth</h2>
+        <p>Self-discovery layer. Personal profile, career & skills map, proof-of-skill portfolio, privacy-first AI companion.</p>
+        <div class="launch">Launch System →</div>
+      </a>
+    </div>
+
+    <footer>
+      KCN Systems · All four platforms free for the creator · Parallel independent builds
+    </footer>
+  </div>
+</body>
+</html>
