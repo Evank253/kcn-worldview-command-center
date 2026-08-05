@@ -1,28 +1,26 @@
-# KCN Worldview / Command Center
+# KCN Command Center (Umbrella / Portal)
 
-**Four independent high-visual systems** built as one Command Center ecosystem.
+This is the **central launcher and overview** for four fully independent KCN systems.
 
-**Live Website (after enabling Pages):** https://evank253.github.io/kcn-worldview-command-center/
+**Live Portal (after enabling Pages):** https://evank253.github.io/kcn-worldview-command-center/
 
-> Owner access is fully free and unrestricted.
+---
 
-## Live Systems
+## The Four Separate Systems
 
-| System | Direct Link |
-|--------|-------------|
-| **Launcher** | [Open](https://evank253.github.io/kcn-worldview-command-center/) |
-| **Worldview** | [Launch](https://evank253.github.io/kcn-worldview-command-center/Worldview/public/) |
-| **Cyber Security HQ** | [Launch](https://evank253.github.io/kcn-worldview-command-center/Cyber-Security-HQ/public/) |
-| **Nano Banana World Design** | [Launch](https://evank253.github.io/kcn-worldview-command-center/Nano-Banana-World-Design/public/) |
-| **Human AI Personal Growth** | [Launch](https://evank253.github.io/kcn-worldview-command-center/Human-AI-Personal-Growth/public/) |
+| System | Repository | Description |
+|--------|------------|-------------|
+| **KCN Worldview** | [kcn-worldview](https://github.com/Evank253/kcn-worldview) | Intelligence & knowledge-graph platform with interactive 3D globe |
+| **KCN Cyber Security HQ** | [kcn-cyber-security-hq](https://github.com/Evank253/kcn-cyber-security-hq) | Cyber globe, live events, systems health, OSINT (DeFlock, Atlas of Surveillance, FOIA) |
+| **KCN Nano Banana World Design** | [kcn-nano-banana-world-design](https://github.com/Evank253/kcn-nano-banana-world-design) | Virtual architecture + design platform with 3D viewport & AI Design Swarm |
+| **KCN Human AI Personal Growth** | [kcn-human-ai-personal-growth](https://github.com/Evank253/kcn-human-ai-personal-growth) | Self-discovery, skills map, proof-of-skill portfolio, privacy-first companion |
 
-## Systems
-1. **Worldview** - Intelligence & knowledge-graph with 3D globe
-2. **Cyber Security HQ** - Cyber globe, live events, OSINT (DeFlock, Atlas of Surveillance, FOIA strategies)
-3. **Nano Banana World Design** - Virtual architecture, 3D design, AI Design Swarm, materials & costing
-4. **Human AI Personal Growth** - Self-discovery, skills map, proof-of-skill portfolio, privacy-first companion
+Each system is its own independent repository and can be developed, deployed, and used separately.
 
-## Deploy
+---
+
+## Owner Access
+Fully free and unrestricted for the creator (Evank253).
+
+## Deploy this portal
 Settings → Pages → Deploy from branch `main` / root
-
-Repository: https://github.com/Evank253/kcn-worldview-command-center
