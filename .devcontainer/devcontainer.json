@@ -8,7 +8,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "unzip -o KCN-Command-Center.zip -d /tmp/kcn && cp -rn /tmp/kcn/KCN/Worldview/* Worldview/ 2>/dev/null || true; cp -rn /tmp/kcn/KCN/Cyber-Security-HQ/* Cyber-Security-HQ/ 2>/dev/null || true; cp -rn /tmp/kcn/KCN/Nano-Banana-World-Design/* Nano-Banana-World-Design/ 2>/dev/null || true; cp -rn /tmp/kcn/KCN/Human-AI-Personal-Growth/* Human-AI-Personal-Growth/ 2>/dev/null || true; echo '✅ KCN prototypes extracted. Static server starting on port 8080. Open the forwarded port.'",
+  "postCreateCommand": "unzip -o KCN-Command-Center.zip -d /tmp/kcn && mkdir -p Worldview Cyber-Security-HQ Nano-Banana-World-Design Human-AI-Personal-Growth && cp -r /tmp/kcn/KCN/Worldview/* Worldview/ && cp -r /tmp/kcn/KCN/Cyber-Security-HQ/* Cyber-Security-HQ/ && cp -r /tmp/kcn/KCN/Nano-Banana-World-Design/* Nano-Banana-World-Design/ && cp -r /tmp/kcn/KCN/Human-AI-Personal-Growth/* Human-AI-Personal-Growth/ && echo '✅ KCN prototypes extracted and ready. Static server on port 8080.'",
   "postStartCommand": "python3 -m http.server 8080",
   "customizations": {
     "vscode": {
