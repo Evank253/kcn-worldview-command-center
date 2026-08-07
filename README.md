@@ -20,6 +20,8 @@ They are ready to open and explore immediately — no build step required.
 | Nano Banana World Design | `./Nano-Banana-World-Design` | Prototype |
 | Human AI Personal Growth | `./Human-AI-Personal-Growth` | Prototype |
 
+The full prototypes live in `KCN-Command-Center.zip` and are **automatically extracted** when you open a Codespace.
+
 Future work will expand these into full React / Vite applications.
 
 ---
@@ -27,7 +29,9 @@ Future work will expand these into full React / Vite applications.
 ## Quick Start (GitHub Codespaces)
 
 1. Click **Code → Codespaces → Create codespace on Python-3** (or the default branch).
-2. Wait for the container to start. A static server automatically launches on **port 8080**.
+2. Wait for the container to start.  
+   - The prototypes are extracted from the zip.  
+   - A static server automatically launches on **port 8080**.
 3. When prompted, open the forwarded port **8080** in the browser.
 4. You will see the **KCN Command Center launcher**. Click any of the four cards to open that system.
 
@@ -46,11 +50,16 @@ Or use the **Live Server** / **Live Preview** extension that is pre-installed.
 ```bash
 git clone https://github.com/Evank253/kcn-worldview-command-center.git
 cd kcn-worldview-command-center
+unzip -o KCN-Command-Center.zip -d /tmp/kcn
+cp -r /tmp/kcn/KCN/Worldview/* Worldview/
+cp -r /tmp/kcn/KCN/Cyber-Security-HQ/* Cyber-Security-HQ/
+cp -r /tmp/kcn/KCN/Nano-Banana-World-Design/* Nano-Banana-World-Design/
+cp -r /tmp/kcn/KCN/Human-AI-Personal-Growth/* Human-AI-Personal-Growth/
 python3 -m http.server 8080
 # Open http://localhost:8080
 ```
 
-Or simply open `index.html` in a modern browser (some features that use modules or certain CDNs work best via a local server).
+Or simply open `index.html` in a modern browser (some features work best via a local server).
 
 ---
 
@@ -61,6 +70,7 @@ kcn-worldview-command-center/
 ├── index.html                          # Main launcher
 ├── README.md
 ├── CONTRIBUTING.md
+├── KCN-Command-Center.zip              # Full prototypes (auto-extracted in Codespaces)
 ├── .devcontainer/
 │   └── devcontainer.json               # Codespaces configuration
 │
