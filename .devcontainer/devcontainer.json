@@ -8,7 +8,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "echo '✅ KCN Command Center ready. Start the static server with: python3 -m http.server 8080' && echo 'Then open the forwarded port or http://localhost:8080'",
+  "postCreateCommand": "unzip -o KCN-Command-Center.zip -d /tmp/kcn && cp -rn /tmp/kcn/KCN/Worldview/* Worldview/ 2>/dev/null || true; cp -rn /tmp/kcn/KCN/Cyber-Security-HQ/* Cyber-Security-HQ/ 2>/dev/null || true; cp -rn /tmp/kcn/KCN/Nano-Banana-World-Design/* Nano-Banana-World-Design/ 2>/dev/null || true; cp -rn /tmp/kcn/KCN/Human-AI-Personal-Growth/* Human-AI-Personal-Growth/ 2>/dev/null || true; echo '✅ KCN prototypes extracted. Static server starting on port 8080. Open the forwarded port.'",
   "postStartCommand": "python3 -m http.server 8080",
   "customizations": {
     "vscode": {
