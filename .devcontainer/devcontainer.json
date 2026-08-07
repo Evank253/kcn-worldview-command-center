@@ -1,0 +1,26 @@
+{
+  "name": "KCN Command Center",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
+  "forwardPorts": [8080, 5500],
+  "portsAttributes": {
+    "8080": {
+      "label": "KCN Launcher (static server)",
+      "onAutoForward": "notify"
+    }
+  },
+  "postCreateCommand": "echo '✅ KCN Command Center ready. Start the static server with: python3 -m http.server 8080' && echo 'Then open the forwarded port or http://localhost:8080'",
+  "postStartCommand": "python3 -m http.server 8080",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ritwickdey.LiveServer",
+        "ms-vscode.live-server"
+      ],
+      "settings": {
+        "liveServer.settings.port": 5500,
+        "liveServer.settings.root": "/"
+      }
+    }
+  },
+  "features": {}
+}
