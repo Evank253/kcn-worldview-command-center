@@ -5,10 +5,10 @@
   "portsAttributes": {
     "8080": {
       "label": "KCN Launcher (static server)",
-      "onAutoForward": "notify"
+      "onAutoForward": "openBrowser"
     }
   },
-  "postCreateCommand": "unzip -o KCN-Command-Center.zip -d /tmp/kcn && mkdir -p Worldview Cyber-Security-HQ Nano-Banana-World-Design Human-AI-Personal-Growth && cp -r /tmp/kcn/KCN/Worldview/* Worldview/ && cp -r /tmp/kcn/KCN/Cyber-Security-HQ/* Cyber-Security-HQ/ && cp -r /tmp/kcn/KCN/Nano-Banana-World-Design/* Nano-Banana-World-Design/ && cp -r /tmp/kcn/KCN/Human-AI-Personal-Growth/* Human-AI-Personal-Growth/ && echo '✅ KCN prototypes extracted and ready. Static server on port 8080.'",
+  "postCreateCommand": "set -e; unzip -o KCN-Command-Center.zip -d /tmp/kcn; mkdir -p Worldview Cyber-Security-HQ Nano-Banana-World-Design Human-AI-Personal-Growth; cp -r /tmp/kcn/KCN/Worldview/* Worldview/; cp -r /tmp/kcn/KCN/Cyber-Security-HQ/* Cyber-Security-HQ/; cp -r /tmp/kcn/KCN/Nano-Banana-World-Design/* Nano-Banana-World-Design/; cp -r /tmp/kcn/KCN/Human-AI-Personal-Growth/* Human-AI-Personal-Growth/; echo '✅ KCN prototypes extracted. Starting static server...'; ls -la Worldview/public/ Cyber-Security-HQ/public/ || true",
   "postStartCommand": "python3 -m http.server 8080",
   "customizations": {
     "vscode": {
