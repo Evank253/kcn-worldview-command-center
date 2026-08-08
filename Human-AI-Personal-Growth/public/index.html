@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KCN Human AI Personal Growth</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #030712;
+      --panel: rgba(15, 23, 42, 0.7);
+      --border: rgba(148, 163, 184, 0.12);
+      --accent: #a78bfa;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+    }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+    .bg {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 70% 50% at 30% 20%, rgba(167, 139, 250, 0.12), transparent),
+        radial-gradient(ellipse 50% 40% at 80% 80%, rgba(99, 102, 241, 0.08), transparent);
+    }
+    header {
+      position: relative; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(3, 7, 18, 0.8); backdrop-filter: blur(12px);
+    }
+    .logo {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .logo-mark {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.95rem; color: white;
+    }
+    h1 { font-size: 1.1rem; font-weight: 500; letter-spacing: 0.04em; }
+    .status {
+      font-size: 0.7rem; color: #34d399; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .status::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #34d399; box-shadow: 0 0 8px #34d399;
+    }
+    main {
+      position: relative; z-index: 5;
+      max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem;
+      display: grid; gap: 1.5rem;
+    }
+    .hero {
+      text-align: center; padding: 2rem 1rem;
+    }
+    .hero h2 {
+      font-size: 1.6rem; font-weight: 500; margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #e2e8f0, #a78bfa);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p { color: var(--muted); font-size: 0.95rem; max-width: 520px; margin: 0 auto; }
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;
+    }
+    .card {
+      background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.35rem; transition: all 0.25s;
+    }
+    .card:hover {
+      border-color: rgba(167, 139, 250, 0.35);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px -10px rgba(0,0,0,0.4);
+    }
+    .card-icon {
+      width: 38px; height: 38px; border-radius: 10px;
+      background: linear-gradient(135deg, #8b5cf6, #6366f1);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 600; color: white; margin-bottom: 0.9rem; font-size: 0.9rem;
+    }
+    .card h3 { font-size: 1rem; font-weight: 500; margin-bottom: 0.4rem; }
+    .card p { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+    .section-label {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--muted); margin-bottom: 0.75rem;
+    }
+    .skills {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem;
+    }
+    .skill {
+      padding: 0.3rem 0.7rem; border-radius: 100px;
+      background: rgba(167, 139, 250, 0.12); border: 1px solid rgba(167, 139, 250, 0.25);
+      font-size: 0.72rem; color: #c4b5fd;
+    }
+    .progress-bar {
+      height: 6px; background: rgba(30, 41, 59, 0.8); border-radius: 3px;
+      margin-top: 0.6rem; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; border-radius: 3px;
+      background: linear-gradient(90deg, #8b5cf6, #6366f1);
+    }
+    footer {
+      text-align: center; padding: 2rem; font-size: 0.75rem; color: #475569;
+      position: relative; z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <header>
+    <div class="logo">
+      <div class="logo-mark">H</div>
+      <h1>Human AI Personal Growth</h1>
+    </div>
+    <div class="status">Privacy-first · Online</div>
+  </header>
+  <main>
+    <div class="hero">
+      <h2>Self-discovery & co-evolution</h2>
+      <p>Personal profile, career & skills map, proof-of-skill portfolio, and a privacy-first AI companion for coaching and growth.</p>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <div class="card-icon">P</div>
+        <h3>Personal Profile</h3>
+        <p>Identity, values, strengths, and life narrative. Continuously refined with the AI companion.</p>
+        <div class="section-label" style="margin-top:1rem">Completion</div>
+        <div class="progress-bar"><div class="progress-fill" style="width:68%"></div></div>
+      </div>
+      <div class="card">
+        <div class="card-icon">C</div>
+        <h3>Career & Skills Map</h3>
+        <p>Visual pathway of current skills, target roles, and recommended learning paths.</p>
+        <div class="skills">
+          <span class="skill">Systems Design</span>
+          <span class="skill">AI Architecture</span>
+          <span class="skill">Governance</span>
+          <span class="skill">Full-stack</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-icon">R</div>
+        <h3>Resume & Portfolio</h3>
+        <p>Template-driven builder with proof-of-skill verification and live previews.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">A</div>
+        <h3>AI Companion</h3>
+        <p>Privacy-first coaching agent. Local-first options, explicit consent for any cloud processing.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">✓</div>
+        <h3>Proof-of-Skill</h3>
+        <p>Verified artifacts, project evidence, and skill attestations that travel with you.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔒</div>
+        <h3>Privacy by Default</h3>
+        <p>Data minimization, encryption at rest, and clear controls over what is shared externally.</p>
+      </div>
+    </div>
+  </main>
+  <footer>KCN Human AI Personal Growth · Owner access unrestricted · Prototype</footer>
+</body>
+</html>
