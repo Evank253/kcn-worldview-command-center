@@ -22,3 +22,21 @@ export interface FlightsResponse {
   sources: string[]
   timestamp: string
 }
+
+export interface ThreatRecord {
+  ip: string
+  lat: number
+  lon: number
+  country: string
+  city: string
+  /** True only if this IP was actually geolocated successfully this request. */
+  live: boolean
+}
+
+export interface ThreatsResponse {
+  threats: ThreatRecord[]
+  count: number
+  source: string
+  timestamp: string
+}
+

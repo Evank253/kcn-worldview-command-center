@@ -70,10 +70,34 @@ describe('Globe markers', () => {
 
   it('setMarkersVisible toggles the marker group visibility flag', () => {
     const globe = new Globe(1)
+    globe.upsertMarker({ id: 'a1', lat: 10, lon: 20, color: 0xff0000 })
     globe.setMarkersVisible(false)
     expect(globe.group.children[0].visible).toBe(false)
     globe.setMarkersVisible(true)
     expect(globe.group.children[0].visible).toBe(true)
+  })
+
+  it('setMarkersVisible on a layer with no markers yet is a safe no-op', () => {
+    const globe = new Globe(1)
+    expect(() => globe.setMarkersVisible(false, 'threats')).not.toThrow()
+  })
+
+  it('supports independent named layers that do not collide by id', () => {
+    const globe = new Globe(1)
+    globe.upsertMarker({ id: 'shared-id', lat: 10, lon: 20, color: 0xff0000 }, 'flights')
+    globe.upsertMarker({ id: 'shared-id', lat: -10, lon: -20, color: 0x00ff00 }, 'threats')
+
+    const flightsFound = globe.group.children
+      .flatMap((c) => c.children)
+      .filter((c) => c.name === 'shared-id')
+    expect(flightsFound.length).toBe(2) // one per layer, same id string, different layers
+
+    globe.setMarkersVisible(false, 'flights')
+    globe.setMarkersVisible(true, 'threats')
+    // Exactly one of the two same-named-id layer groups should be hidden.
+    const visibilityStates = globe.group.children.map((g) => g.visible)
+    expect(visibilityStates).toContain(false)
+    expect(visibilityStates).toContain(true)
   })
 
   it('clearMarkers removes everything', () => {

@@ -19,13 +19,10 @@ export class Globe {
   readonly group: THREE.Group
   private earth!: THREE.Mesh
   private clouds!: THREE.Mesh
-  private markerGroup: THREE.Group
-  private markers = new Map<string, THREE.Object3D>()
+  private markerLayers = new Map<string, { group: THREE.Group; markers: Map<string, THREE.Object3D> }>()
 
   constructor(private radius = 1) {
     this.group = new THREE.Group()
-    this.markerGroup = new THREE.Group()
-    this.group.add(this.markerGroup)
   }
 
   /** Load textures and build the mesh. Call once, await before rendering. */
@@ -136,8 +133,9 @@ export class Globe {
   }
 
   /** Add or update a point marker (aircraft, event origin, etc.) at lat/lon. */
-  upsertMarker(marker: GlobeMarker): void {
-    const existing = this.markers.get(marker.id)
+  upsertMarker(marker: GlobeMarker, layer = 'default'): void {
+    const { group, markers } = this.getOrCreateLayer(layer)
+    const existing = markers.get(marker.id)
     const position = Globe.latLonToVector3(marker.lat, marker.lon, this.radius * 1.01)
 
     if (existing) {
@@ -150,22 +148,38 @@ export class Globe {
     const mesh = new THREE.Mesh(geometry, material)
     mesh.position.copy(position)
     mesh.name = marker.id
-    this.markerGroup.add(mesh)
-    this.markers.set(marker.id, mesh)
+    group.add(mesh)
+    markers.set(marker.id, mesh)
   }
 
-  removeMarker(id: string): void {
-    const existing = this.markers.get(id)
+  removeMarker(id: string, layer = 'default'): void {
+    const found = this.markerLayers.get(layer)
+    if (!found) return
+    const existing = found.markers.get(id)
     if (!existing) return
-    this.markerGroup.remove(existing)
-    this.markers.delete(id)
+    found.group.remove(existing)
+    found.markers.delete(id)
   }
 
-  clearMarkers(): void {
-    for (const id of Array.from(this.markers.keys())) this.removeMarker(id)
+  clearMarkers(layer = 'default'): void {
+    const found = this.markerLayers.get(layer)
+    if (!found) return
+    for (const id of Array.from(found.markers.keys())) this.removeMarker(id, layer)
   }
 
-  setMarkersVisible(visible: boolean): void {
-    this.markerGroup.visible = visible
+  setMarkersVisible(visible: boolean, layer = 'default'): void {
+    const found = this.markerLayers.get(layer)
+    if (found) found.group.visible = visible
+  }
+
+  private getOrCreateLayer(layer: string) {
+    let found = this.markerLayers.get(layer)
+    if (!found) {
+      const group = new THREE.Group()
+      this.group.add(group)
+      found = { group, markers: new Map() }
+      this.markerLayers.set(layer, found)
+    }
+    return found
   }
 }
