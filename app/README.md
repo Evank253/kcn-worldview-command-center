@@ -95,3 +95,42 @@ npm run build
 whether it's a dev-tooling-only issue (Vite/Vitest dev servers, not the
 production build) before treating it as urgent — but don't assume that;
 verify each time.
+
+## CesiumJS globe — in progress, not wired in yet
+
+`src/cesiumGlobe.ts` is a real CesiumJS wrapper — free OpenStreetMap
+imagery, no Cesium ion account required (verified against Cesium's actual
+type definitions: `terrainProvider` defaults to the free
+`EllipsoidTerrainProvider`, and `baseLayer`/`baseLayerPicker`/`geocoder`
+are explicitly overridden to avoid any ion asset reference). Its pure
+bookkeeping logic (`src/layerRegistry.ts`) is unit tested — 11 tests.
+
+**What I could not verify from this sandbox: whether it actually renders
+correctly in a browser.** `Cesium.Viewer` requires a real WebGL context
+at construction time (unlike three.js, which can build scene objects
+without a GPU) — this sandbox has no browser/display at all, so I could
+not visually confirm the globe appears correctly. Open `cesium-demo.html`
+(via `npm run dev` or the production build) yourself and check the
+browser console for errors before relying on this.
+
+**Not wired into the main app yet.** The working, tested three.js globe
+in `src/main.ts` has not been replaced — that swap is deliberately held
+back until the Cesium version is confirmed to actually render, rather
+than risk breaking the known-working experience on an unverified change.
+
+**Real terrain elevation** (mountains/valleys, not the current flat
+ellipsoid) requires either a Cesium ion account (free tier still needs
+signup) or self-hosting a quantized-mesh terrain dataset built from open
+elevation data (AWS Terrain Tiles / USGS) — genuinely more work, not
+done here.
+
+**Real 3D buildings** via Overture Maps requires downloading + converting
+geospatial data (GeoParquet -> 3D Tiles via loaders.gl or similar) and
+is not feasible globally for a self-hosted project — would need to be
+scoped to one demo region. Not started.
+
+Also worth knowing: building-level visual detail does not improve the
+accuracy of anything placed on this globe from IP geolocation (flights,
+threats) — that data only resolves to city/region level regardless of
+terrain or building detail. This is a viewing-experience upgrade, not a
+tracking-accuracy upgrade.

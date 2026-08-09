@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KCN Command Center — CesiumJS Demo (unverified render)</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; background: #000; }
+    #cesiumContainer { width: 100vw; height: 100vh; }
+    #cc-banner {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: #7c2d12; color: #fed7aa; font-family: monospace;
+      font-size: 12px; padding: 6px 12px; text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="cc-banner">
+    CesiumJS demo — free OSM imagery, no elevation terrain yet, no buildings yet. Open the browser console for load errors.
+  </div>
+  <div id="cesiumContainer"></div>
+  <script type="module" src="/src/cesium-demo.ts"></script>
+</body>
+</html>
