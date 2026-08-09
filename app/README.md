@@ -80,9 +80,10 @@ npx tsc      # type-check
 npm run build
 ```
 
-## Known dev-only vulnerability
+## Dependency security
 
-`npm audit` reports a moderate esbuild vulnerability affecting Vite's dev
-server (not the production build) on Vite 5.x — fixed only in Vite 8,
-which is a breaking change not made here. Low real-world risk unless you
-expose the dev server (not the Docker build) to an untrusted network.
+`npm audit` reports 0 vulnerabilities as of the last dependency update
+(Vite 8 / Vitest 4). If GitHub's Dependabot flags something new, check
+whether it's a dev-tooling-only issue (Vite/Vitest dev servers, not the
+production build) before treating it as urgent — but don't assume that;
+verify each time.
