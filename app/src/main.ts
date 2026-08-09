@@ -43,7 +43,9 @@ app.innerHTML = `
       </div>
     </header>
     <main id="cc-main">
-      <div id="cc-canvas-wrap"></div>
+      <div id="cc-canvas-wrap">
+        <div id="cc-globe-loading">Loading globe textures…</div>
+      </div>
       <aside id="cc-side">
         <section class="cc-panel" data-open="true">
           <button class="cc-panel-head" data-toggle="flights">
@@ -127,6 +129,7 @@ style.textContent = `
   #cc-main { flex:1; display:grid; grid-template-columns:1fr 340px; min-height:0; }
   #cc-canvas-wrap { position:relative; }
   #cc-canvas-wrap canvas { display:block; width:100%; height:100%; }
+  #cc-globe-loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#93c5fd; font-family:'JetBrains Mono',monospace; font-size:0.8rem; text-align:center; padding:2rem; }
   #cc-side { background:rgba(10,14,24,0.85); border-left:1px solid rgba(120,160,255,0.15); overflow-y:auto; scrollbar-width:thin; scrollbar-color:#2a3548 transparent; display:flex; flex-direction:column; }
   .cc-panel { border-bottom:1px solid rgba(120,160,255,0.1); }
   .cc-panel-head { width:100%; display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; color:inherit; padding:0.75rem 1rem; cursor:pointer; font-family:inherit; }
@@ -423,26 +426,32 @@ function renderCyberLayer() {
 
 async function pollFlights() {
   try {
-    const res = await fetch('/api/flights')
+    const res = await fetch('/api/flights', { signal: AbortSignal.timeout(8000) })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const data: FlightsResponse = await res.json()
     renderFlightList(data)
     updateGlobeMarkers(data)
   } catch (err) {
     statusEl.textContent = 'FEED UNAVAILABLE'
-    flightSourceEl.textContent = (err as Error).message
+    flightSourceEl.textContent =
+      err instanceof Error && err.name === 'TimeoutError'
+        ? 'timed out (no backend on this deployment?)'
+        : (err as Error).message
     console.error('[flights] poll failed:', err)
   }
 }
 
 async function pollThreats() {
   try {
-    const res = await fetch('/api/threats')
+    const res = await fetch('/api/threats', { signal: AbortSignal.timeout(8000) })
     if (!res.ok) throw new Error(`HTTP ${res.status}`)
     const data: ThreatsResponse = await res.json()
     renderThreatList(data)
   } catch (err) {
-    threatSourceEl.textContent = `unavailable: ${(err as Error).message}`
+    threatSourceEl.textContent =
+      err instanceof Error && err.name === 'TimeoutError'
+        ? 'unavailable: timed out (no backend on this deployment?)'
+        : `unavailable: ${(err as Error).message}`
     console.error('[threats] poll failed:', err)
   }
 }
@@ -459,16 +468,42 @@ threatsToggle.addEventListener('change', () => {
   globe.setMarkersVisible(threatsToggle.checked, 'threats')
 })
 
+/**
+ * Boot sequence, made resilient on purpose: the globe's textures (~3MB,
+ * 5 separate loads) are the slowest and most failure-prone part of
+ * startup. Everything else — the packet table, OSINT panel, and the
+ * live data polls — must not be gated behind that succeeding. Previously
+ * they were all sequential awaits after globe.init(), so a slow or
+ * failed texture load silently blocked the rest of the UI from ever
+ * populating (an unhandled rejection with no visible error) — this is
+ * the fix for that.
+ */
 async function boot() {
-  await globe.init('./textures')
-  resize()
-  animate()
+  // Local data, no network dependency — render immediately.
   renderCyberLayer()
   renderOsintPanel()
-  await pollFlights()
-  await pollThreats()
+
+  // Live data polling — independent of the globe, independent of each other.
+  pollFlights()
+  pollThreats()
   setInterval(pollFlights, 20_000)
   setInterval(pollThreats, 60_000)
+
+  // The globe itself — failure here must not take down anything above.
+  try {
+    await globe.init('./textures')
+    canvasWrap.innerHTML = '' // clear the loading message
+    canvasWrap.appendChild(renderer.domElement)
+    resize()
+    animate()
+  } catch (err) {
+    console.error('[globe] failed to initialize:', err)
+    canvasWrap.innerHTML = `<div style="color:#f87171;font-family:monospace;font-size:0.8rem;padding:2rem;">
+      Globe failed to load: ${err instanceof Error ? err.message : 'unknown error'}.
+      The panels on the right should still work.
+    </div>`
+  }
 }
 
 boot()
+
