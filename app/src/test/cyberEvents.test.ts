@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { hashString, ipToDemoLatLon, SIMULATED_CYBER_EVENTS } from '../data/cyberEvents'
+import { hashString, ipToDemoLatLon, SIMULATED_CYBER_EVENTS, applyIncidentAction } from '../data/cyberEvents'
 
 describe('hashString', () => {
   it('is deterministic for the same input', () => {
@@ -64,5 +64,30 @@ describe('SIMULATED_CYBER_EVENTS', () => {
       expect(ev.srcIp.length).toBeGreaterThan(0)
       expect(ev.dstIp.length).toBeGreaterThan(0)
     }
+  })
+
+  it('every event starts with status open', () => {
+    for (const ev of SIMULATED_CYBER_EVENTS) {
+      expect(ev.status).toBe('open')
+    }
+  })
+})
+
+describe('applyIncidentAction', () => {
+  it('returns a new object with the updated status, without mutating the original', () => {
+    const original = SIMULATED_CYBER_EVENTS[0]
+    const updated = applyIncidentAction(original, 'acknowledged')
+
+    expect(updated.status).toBe('acknowledged')
+    expect(original.status).toBe('open') // unchanged
+    expect(updated).not.toBe(original) // different object identity
+    expect(updated.id).toBe(original.id) // same event, just new status
+  })
+
+  it('supports all three response actions', () => {
+    const original = SIMULATED_CYBER_EVENTS[0]
+    expect(applyIncidentAction(original, 'escalated').status).toBe('escalated')
+    expect(applyIncidentAction(original, 'isolated').status).toBe('isolated')
+    expect(applyIncidentAction(original, 'acknowledged').status).toBe('acknowledged')
   })
 })

@@ -1,4 +1,5 @@
 export type Severity = 'high' | 'med' | 'low' | 'info'
+export type IncidentStatus = 'open' | 'acknowledged' | 'escalated' | 'isolated'
 
 export interface CyberEvent {
   id: string
@@ -9,6 +10,8 @@ export interface CyberEvent {
   proto: string
   desc: string
   anomaly: boolean
+  assets: string[]
+  status: IncidentStatus
 }
 
 /**
@@ -18,13 +21,13 @@ export interface CyberEvent {
  * fake, not real geolocation.
  */
 export const SIMULATED_CYBER_EVENTS: CyberEvent[] = [
-  { id: 'ev1', severity: 'high', time: '14:22:01', srcIp: '10.0.4.12', dstIp: '185.220.101.4', proto: 'TCP:443', desc: 'Suspicious outbound (C2 pattern)', anomaly: true },
-  { id: 'ev2', severity: 'med', time: '14:21:47', srcIp: '203.0.113.9', dstIp: '10.0.1.5', proto: 'TCP:22', desc: 'Failed auth burst', anomaly: false },
-  { id: 'ev3', severity: 'low', time: '14:21:12', srcIp: '198.51.100.22', dstIp: '10.0.0.0/16', proto: 'TCP:SYN', desc: 'Port scan noise (filtered)', anomaly: false },
-  { id: 'ev4', severity: 'high', time: '14:20:55', srcIp: '10.0.4.12', dstIp: '185.220.101.4', proto: 'TCP:443', desc: 'Possible beacon interval match', anomaly: true },
-  { id: 'ev5', severity: 'med', time: '14:19:33', srcIp: '10.0.2.8', dstIp: '8.8.8.8', proto: 'UDP:53', desc: 'Unusual DNS query volume', anomaly: true },
-  { id: 'ev7', severity: 'high', time: '14:17:22', srcIp: '10.0.4.19', dstIp: '203.0.113.44', proto: 'SMB:445', desc: 'Lateral movement signature detected', anomaly: true },
-  { id: 'ev9', severity: 'low', time: '14:15:40', srcIp: '91.203.5.10', dstIp: '10.0.1.5', proto: 'TCP:443', desc: 'Geo-IP anomaly (benign)', anomaly: false },
+  { id: 'ev1', severity: 'high', time: '14:22:01', srcIp: '10.0.4.12', dstIp: '185.220.101.4', proto: 'TCP:443', desc: 'Suspicious outbound (C2 pattern)', anomaly: true, assets: ['web-prod-03', 'edge-fw-01'], status: 'open' },
+  { id: 'ev2', severity: 'med', time: '14:21:47', srcIp: '203.0.113.9', dstIp: '10.0.1.5', proto: 'TCP:22', desc: 'Failed auth burst (12 attempts / 8s)', anomaly: false, assets: ['bastion-01'], status: 'open' },
+  { id: 'ev3', severity: 'low', time: '14:21:12', srcIp: '198.51.100.22', dstIp: '10.0.0.0/16', proto: 'TCP:SYN', desc: 'Port scan noise (filtered)', anomaly: false, assets: ['edge-fw-01'], status: 'open' },
+  { id: 'ev4', severity: 'high', time: '14:20:55', srcIp: '10.0.4.12', dstIp: '185.220.101.4', proto: 'TCP:443', desc: 'Possible beacon interval match', anomaly: true, assets: ['web-prod-03'], status: 'open' },
+  { id: 'ev5', severity: 'med', time: '14:19:33', srcIp: '10.0.2.8', dstIp: '8.8.8.8', proto: 'UDP:53', desc: 'Unusual DNS query volume', anomaly: true, assets: ['dns-resolver-01'], status: 'open' },
+  { id: 'ev7', severity: 'high', time: '14:17:22', srcIp: '10.0.4.19', dstIp: '203.0.113.44', proto: 'SMB:445', desc: 'Lateral movement signature detected', anomaly: true, assets: ['file-srv-02', 'workstation-14'], status: 'open' },
+  { id: 'ev9', severity: 'low', time: '14:15:40', srcIp: '91.203.5.10', dstIp: '10.0.1.5', proto: 'TCP:443', desc: 'Geo-IP anomaly (benign)', anomaly: false, assets: ['bastion-01'], status: 'open' },
 ]
 
 /**
@@ -57,3 +60,15 @@ export function ipToDemoLatLon(ip: string): { lat: number; lon: number } {
   const lon = ((h >>> 10) % 1000) / 1000 * 360 - 180 // -180..180
   return { lat, lon }
 }
+
+/**
+ * Applies an incident response action to an event, returning a new event
+ * object (does not mutate). This is the same three actions offered in the
+ * Cyber-Security-HQ standalone prototype: acknowledge / escalate /
+ * isolate. Purely local state — there is no backend SIEM to actually
+ * page anyone or isolate a host, and the UI must say so.
+ */
+export function applyIncidentAction(event: CyberEvent, action: IncidentStatus): CyberEvent {
+  return { ...event, status: action }
+}
+

@@ -35,6 +35,14 @@ log if you need the reasoning).
   determinism, coordinate bounds, and arc add/remove/visibility logic.
 - **Toggleable layers**: checkboxes in the side panel show/hide the
   flight markers and cyber attack arcs independently.
+- **Incident response on simulated events**: click any row in the
+  Wireshark-style packet table to drill into a detail panel — affected
+  assets, and Acknowledge / Escalate / Isolate host actions. Purely a
+  local UI simulation (no backend SIEM exists), and the panel says so.
+- **OSINT & Surveillance Awareness panel**: DeFlock, Atlas of
+  Surveillance, and the legal-access-to-Flock-footage explainer, ported
+  over from the standalone Cyber-Security-HQ prototype (it existed there
+  but was never carried into this merged app until now).
 - **Collapsible, scrollable side panels**: each panel section collapses
   via its header, and long lists scroll within a bounded height instead
   of pushing the layout around.
