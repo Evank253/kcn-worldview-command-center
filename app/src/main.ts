@@ -458,14 +458,18 @@ async function pollThreats() {
 
 flightsToggle.addEventListener('change', () => {
   globe.setMarkersVisible(flightsToggle.checked, 'flights')
+  flightListEl.style.display = flightsToggle.checked ? '' : 'none'
 })
 
 cyberToggle.addEventListener('change', () => {
   attackArcs.setVisible(cyberToggle.checked)
+  packetTbodyEl.closest('table')!.style.display = cyberToggle.checked ? '' : 'none'
+  eventDetailEl.style.display = cyberToggle.checked ? '' : 'none'
 })
 
 threatsToggle.addEventListener('change', () => {
   globe.setMarkersVisible(threatsToggle.checked, 'threats')
+  threatListEl.style.display = threatsToggle.checked ? '' : 'none'
 })
 
 /**
