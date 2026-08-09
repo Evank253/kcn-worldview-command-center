@@ -1,0 +1,22 @@
+# KCN Command Center — flight/data API server
+
+FROM node:20-alpine
+WORKDIR /app
+
+RUN addgroup -g 1001 appgroup && adduser -D -u 1001 -G appgroup appuser
+
+COPY package.json package-lock.json* ./
+RUN npm ci
+
+COPY server ./server
+COPY src/data ./src/data
+COPY tsconfig.json ./
+
+RUN chown -R appuser:appgroup /app
+USER appuser
+
+EXPOSE 4200
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD node -e "fetch('http://localhost:4200/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+
+CMD ["npx", "tsx", "server/index.ts"]

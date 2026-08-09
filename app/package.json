@@ -1,0 +1,32 @@
+{
+  "name": "kcn-command-center",
+  "version": "0.1.0",
+  "private": true,
+  "description": "KCN Command Center — Worldview + Cyber Security HQ merged, real 3D globe with live flight data",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "lint": "eslint src server",
+    "server": "tsx server/index.ts",
+    "server:dev": "tsx watch server/index.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.1",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/three": "^0.169.0",
+    "typescript": "^5.6.3",
+    "tsx": "^4.19.2",
+    "vite": "^5.4.10",
+    "vitest": "^2.1.4",
+    "eslint": "^9.14.0",
+    "@typescript-eslint/eslint-plugin": "^8.13.0",
+    "@typescript-eslint/parser": "^8.13.0"
+  },
+  "engines": { "node": ">=18" }
+}

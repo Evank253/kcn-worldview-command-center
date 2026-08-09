@@ -1,4 +1,28 @@
-# KCN Command Center — Four Independent Systems
+# KCN Command Center
+
+## Real merged app (Worldview + Cyber Security HQ + live flight data)
+
+**`./app`** is the actual buildable, tested application that replaces the
+Worldview and Cyber-Security-HQ static prototypes below with a real 3D
+globe (high-res satellite textures, real day/night lighting), live
+military flight tracking (OpenSky Network), and simulated cyber attack
+trace arcs — all with toggleable, collapsible layers. See
+[`app/README.md`](./app/README.md) for what's real vs. still planned
+(satellites, live CCTV).
+
+```bash
+cd app
+npm install
+npm run server   # API on :4200
+npm run dev       # separate terminal, app on :5173
+```
+
+Or via Docker: `cd app && docker compose up --build`, then open
+`http://localhost:8080`.
+
+---
+
+# KCN Command Center — Four Independent Systems (original prototypes)
 
 These four systems are being built as **separate projects**.  
 They can later integrate under a unified KCN Command Center, but each stands alone as a fully functional platform.
