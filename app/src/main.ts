@@ -29,27 +29,37 @@ if (!app) throw new Error('#app root not found')
 
 app.innerHTML = `
   <div id="cc-root">
+    <div id="cc-ticker">
+      <div id="cc-ticker-inner">
+        KCN COMMAND CENTER — LIVE MILITARY AIR TRACKING · REAL THREAT INTELLIGENCE FEED · SIMULATED ATTACK TRACE VISUALIZATION · OSINT SURVEILLANCE AWARENESS &nbsp;&nbsp;&nbsp;&nbsp;
+        KCN COMMAND CENTER — LIVE MILITARY AIR TRACKING · REAL THREAT INTELLIGENCE FEED · SIMULATED ATTACK TRACE VISUALIZATION · OSINT SURVEILLANCE AWARENESS &nbsp;&nbsp;&nbsp;&nbsp;
+      </div>
+    </div>
     <header id="cc-header">
       <div class="cc-logo">
-        <div class="cc-logo-mark">K</div>
-        <h1>KCN Command Center</h1>
+        <div class="cc-logo-mark">◈</div>
+        <div>
+          <div class="cc-brand-name">KCN</div>
+          <div class="cc-brand-sub">COMMAND CENTER</div>
+        </div>
       </div>
       <div class="cc-header-right">
         <label class="cc-vw-toggle">
           <input type="checkbox" id="cc-toggle-videowall" />
-          Video wall mode
+          VIDEO WALL MODE
         </label>
-        <div class="cc-status" id="cc-status">Initializing…</div>
+        <div class="cc-live-indicator"><span class="cc-sdot"></span> LIVE</div>
+        <div class="cc-status" id="cc-status">INITIALIZING…</div>
       </div>
     </header>
     <main id="cc-main">
       <div id="cc-canvas-wrap">
-        <div id="cc-globe-loading">Loading globe textures…</div>
+        <div id="cc-globe-loading">LOADING GLOBE TEXTURES…</div>
       </div>
       <aside id="cc-side">
         <section class="cc-panel" data-open="true">
           <button class="cc-panel-head" data-toggle="flights">
-            <span class="cc-panel-title">Live Military Air Traffic</span>
+            <span class="cc-panel-title"><span class="cc-pd cc-pd-b"></span>LIVE MILITARY AIR TRAFFIC</span>
             <span class="cc-panel-actions">
               <label class="cc-switch" onclick="event.stopPropagation()">
                 <input type="checkbox" id="cc-toggle-flights" checked />
@@ -58,14 +68,14 @@ app.innerHTML = `
             </span>
           </button>
           <div class="cc-panel-body">
-            <div class="cc-side-sub" id="cc-flight-source">connecting…</div>
+            <div class="cc-side-sub" id="cc-flight-source">CONNECTING…</div>
             <div id="cc-flight-list" class="cc-scroll"></div>
           </div>
         </section>
 
         <section class="cc-panel" data-open="true">
           <button class="cc-panel-head" data-toggle="threats">
-            <span class="cc-panel-title">Real Threat Feed (blocklist.de)</span>
+            <span class="cc-panel-title"><span class="cc-pd cc-pd-r"></span>REAL THREAT FEED (BLOCKLIST.DE)</span>
             <span class="cc-panel-actions">
               <label class="cc-switch" onclick="event.stopPropagation()">
                 <input type="checkbox" id="cc-toggle-threats" checked />
@@ -74,7 +84,7 @@ app.innerHTML = `
             </span>
           </button>
           <div class="cc-panel-body">
-            <div class="cc-side-sub" id="cc-threat-source">connecting…</div>
+            <div class="cc-side-sub" id="cc-threat-source">CONNECTING…</div>
             <div class="cc-side-sub">IPs reported recently as abuse sources somewhere on the internet — not necessarily targeting this system, and not a claim about who's behind them.</div>
             <div id="cc-threat-list" class="cc-scroll"></div>
           </div>
@@ -82,7 +92,7 @@ app.innerHTML = `
 
         <section class="cc-panel" data-open="true">
           <button class="cc-panel-head" data-toggle="cyber">
-            <span class="cc-panel-title">Simulated Cyber Attack Traces</span>
+            <span class="cc-panel-title"><span class="cc-pd cc-pd-o"></span>SIMULATED CYBER ATTACK TRACES</span>
             <span class="cc-panel-actions">
               <label class="cc-switch" onclick="event.stopPropagation()">
                 <input type="checkbox" id="cc-toggle-cyber" checked />
@@ -102,7 +112,7 @@ app.innerHTML = `
 
         <section class="cc-panel" data-open="false">
           <button class="cc-panel-head" data-toggle="osint">
-            <span class="cc-panel-title">OSINT &amp; Surveillance Awareness</span>
+            <span class="cc-panel-title"><span class="cc-pd cc-pd-c"></span>OSINT &amp; SURVEILLANCE AWARENESS</span>
             <span class="cc-panel-actions">
               <span class="cc-chevron">▾</span>
             </span>
@@ -118,78 +128,109 @@ app.innerHTML = `
 
 const style = document.createElement('style')
 style.textContent = `
-  #cc-root { display:flex; flex-direction:column; height:100vh; background:#05070c; color:#e2e8f0; font-family:'Inter',system-ui,sans-serif; }
-  #cc-header { display:flex; justify-content:space-between; align-items:center; padding:0.9rem 1.5rem; border-bottom:1px solid rgba(120,160,255,0.15); background:rgba(5,7,12,0.9); }
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;700;900&display=swap');
+
+  :root {
+    --bg0:#020509; --bg1:#07090e; --bg2:#0b1018; --bg3:#101620;
+    --accent:#00d4ff; --danger:#ff3333; --warn:#ff8800; --ok:#00cc66; --info:#00aaff; --purple:#a855f7;
+    --b1:rgba(0,212,255,0.10); --b2:rgba(0,212,255,0.25);
+    --t1:#ddeef5; --t2:#6a8fa8; --t3:#2e4a5a;
+    --mono:'Share Tech Mono',monospace; --head:'Orbitron',monospace; --body:'Rajdhani',sans-serif;
+  }
+
+  #cc-root { display:flex; flex-direction:column; height:100vh; background:var(--bg0); color:var(--t1); font-family:var(--body); font-size:13px; }
+
+  #cc-ticker { flex-shrink:0; background:rgba(255,30,30,0.06); border-bottom:1px solid rgba(255,50,50,0.15); padding:3px 0; overflow:hidden; }
+  #cc-ticker-inner { display:inline-flex; white-space:nowrap; animation:cc-ticker-scroll 32s linear infinite; font-family:var(--mono); font-size:9px; color:#ff9999; letter-spacing:0.5px; padding-left:100%; }
+  @keyframes cc-ticker-scroll { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  #cc-header { display:flex; justify-content:space-between; align-items:center; padding:0 1.1rem; height:52px; border-bottom:1px solid var(--b2); background:var(--bg1); position:relative; }
+  #cc-header::after { content:''; position:absolute; bottom:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,var(--accent) 40%,var(--accent) 60%,transparent); opacity:0.25; }
   .cc-header-right { display:flex; align-items:center; gap:1rem; }
-  .cc-vw-toggle { display:flex; align-items:center; gap:0.4rem; font-size:0.7rem; color:#93c5fd; cursor:pointer; }
+  .cc-vw-toggle { display:flex; align-items:center; gap:0.4rem; font-family:var(--mono); font-size:8px; letter-spacing:1.5px; color:var(--t2); cursor:pointer; }
   .cc-logo { display:flex; align-items:center; gap:0.6rem; }
-  .cc-logo-mark { width:26px; height:26px; border-radius:6px; background:linear-gradient(135deg,#3b82f6,#8b5cf6); display:flex; align-items:center; justify-content:center; font-weight:700; font-size:0.75rem; }
-  #cc-header h1 { font-size:0.95rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:#bfdbfe; }
-  #cc-status { font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:#93c5fd; }
-  #cc-main { flex:1; display:grid; grid-template-columns:1fr 340px; min-height:0; }
-  #cc-canvas-wrap { position:relative; }
+  .cc-logo-mark { width:30px; height:30px; border:1.5px solid var(--accent); border-radius:3px; display:flex; align-items:center; justify-content:center; font-size:15px; color:var(--accent); flex-shrink:0; }
+  .cc-brand-name { font-family:var(--head); font-size:15px; font-weight:900; letter-spacing:5px; color:var(--accent); text-shadow:0 0 20px rgba(0,212,255,0.3); }
+  .cc-brand-sub { font-family:var(--mono); font-size:8px; color:var(--t3); letter-spacing:2px; margin-top:1px; }
+  .cc-live-indicator { display:flex; align-items:center; gap:6px; font-family:var(--mono); font-size:9px; letter-spacing:1px; color:var(--ok); }
+  .cc-sdot { width:6px; height:6px; border-radius:50%; background:var(--ok); box-shadow:0 0 5px var(--ok); animation:cc-blink 2s infinite; }
+  @keyframes cc-blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  #cc-status { font-family:var(--mono); font-size:9px; letter-spacing:1px; color:var(--accent); }
+
+  #cc-main { flex:1; display:grid; grid-template-columns:1fr 340px; min-height:0; background:var(--b1); gap:1px; }
+  #cc-canvas-wrap { position:relative; background:var(--bg0); }
   #cc-canvas-wrap canvas { display:block; width:100%; height:100%; }
-  #cc-globe-loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:#93c5fd; font-family:'JetBrains Mono',monospace; font-size:0.8rem; text-align:center; padding:2rem; }
-  #cc-side { background:rgba(10,14,24,0.85); border-left:1px solid rgba(120,160,255,0.15); overflow-y:auto; scrollbar-width:thin; scrollbar-color:#2a3548 transparent; display:flex; flex-direction:column; }
-  .cc-panel { border-bottom:1px solid rgba(120,160,255,0.1); }
-  .cc-panel-head { width:100%; display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; color:inherit; padding:0.75rem 1rem; cursor:pointer; font-family:inherit; }
-  .cc-panel-title { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:#93c5fd; }
+  #cc-globe-loading { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; color:var(--accent); font-family:var(--mono); font-size:10px; letter-spacing:2px; text-align:center; padding:2rem; }
+
+  #cc-side { background:var(--bg1); overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--b2) transparent; display:flex; flex-direction:column; }
+  #cc-side::-webkit-scrollbar { width:3px; }
+  #cc-side::-webkit-scrollbar-thumb { background:var(--b2); }
+
+  .cc-panel { border-bottom:1px solid var(--b1); }
+  .cc-panel-head { width:100%; display:flex; justify-content:space-between; align-items:center; background:var(--bg2); border:none; border-bottom:1px solid var(--b1); color:inherit; padding:7px 12px; cursor:pointer; font-family:inherit; }
+  .cc-panel-title { display:flex; align-items:center; gap:7px; font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:1.5px; color:var(--accent); }
+  .cc-pd { width:5px; height:5px; border-radius:50%; flex-shrink:0; }
+  .cc-pd-r { background:var(--danger); box-shadow:0 0 4px var(--danger); }
+  .cc-pd-o { background:var(--warn); box-shadow:0 0 4px var(--warn); }
+  .cc-pd-g { background:var(--ok); box-shadow:0 0 4px var(--ok); }
+  .cc-pd-b { background:var(--info); box-shadow:0 0 4px var(--info); }
+  .cc-pd-c { background:var(--accent); box-shadow:0 0 4px var(--accent); }
   .cc-panel-actions { display:flex; align-items:center; gap:0.5rem; }
-  .cc-chevron { font-size:0.7rem; color:#64748b; transition:transform 0.15s; }
+  .cc-chevron { font-size:9px; color:var(--t3); transition:transform 0.15s; }
   .cc-panel[data-open="false"] .cc-chevron { transform:rotate(-90deg); }
   .cc-panel[data-open="false"] .cc-panel-body { display:none; }
-  .cc-panel-body { padding:0 1rem 0.85rem; }
-  .cc-side-sub { font-size:0.62rem; color:#64748b; font-family:'JetBrains Mono',monospace; margin-bottom:0.6rem; line-height:1.5; }
-  .cc-scroll { max-height:260px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:#2a3548 transparent; }
-  .cc-flight-row, .cc-cyber-row, .cc-threat-row { display:grid; grid-template-columns:14px 1fr auto; align-items:center; gap:0.5rem; padding:0.4rem 0.2rem; border-bottom:1px solid rgba(148,163,184,0.08); font-size:0.7rem; font-family:'JetBrains Mono',monospace; }
+  .cc-panel-body { padding:10px 12px; }
+  .cc-side-sub { font-family:var(--mono); font-size:8px; letter-spacing:0.5px; color:var(--t3); margin-bottom:0.6rem; line-height:1.5; }
+  .cc-scroll { max-height:260px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--b2) transparent; }
+  .cc-flight-row, .cc-cyber-row, .cc-threat-row { display:grid; grid-template-columns:14px 1fr auto; align-items:center; gap:0.5rem; padding:6px 2px; border-bottom:1px solid rgba(0,212,255,0.05); font-size:10px; font-family:var(--mono); }
   .cc-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-  .cc-live-badge { font-size:0.55rem; padding:0.05rem 0.3rem; border-radius:4px; white-space:nowrap; }
-  .cc-live-true { background:rgba(52,211,153,0.15); color:#6ee7b7; }
-  .cc-live-false { background:rgba(148,163,184,0.15); color:#94a3b8; }
-  .cc-switch input { cursor:pointer; }
-  .cc-anomaly { color:#c4b5fd; }
+  .cc-live-badge { font-family:var(--mono); font-size:7px; letter-spacing:1px; padding:1px 5px; border-radius:2px; white-space:nowrap; border:1px solid; }
+  .cc-live-true { border-color:rgba(0,204,102,0.4); color:var(--ok); background:rgba(0,204,102,0.08); }
+  .cc-live-false { border-color:var(--t3); color:var(--t2); background:transparent; }
+  .cc-switch input { cursor:pointer; accent-color:var(--accent); }
+  .cc-anomaly { color:var(--purple); }
 
   /* Packet table + incident detail */
-  .cc-packet-table { width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:0.65rem; }
-  .cc-packet-table thead th { text-align:left; padding:0.3rem 0.3rem; color:#64748b; text-transform:uppercase; font-size:0.58rem; border-bottom:1px solid rgba(120,160,255,0.15); }
+  .cc-packet-table { width:100%; border-collapse:collapse; font-family:var(--mono); font-size:9px; }
+  .cc-packet-table thead th { text-align:left; padding:4px 4px; color:var(--t3); text-transform:uppercase; font-size:8px; letter-spacing:1px; border-bottom:1px solid var(--b1); position:sticky; top:0; background:var(--bg2); }
   .cc-packet-row { cursor:pointer; transition:background 0.15s; }
-  .cc-packet-row td { padding:0.4rem 0.3rem; border-bottom:1px solid rgba(148,163,184,0.08); }
-  .cc-packet-row:hover { background:rgba(120,160,255,0.06); }
-  .cc-packet-row.selected { background:rgba(120,160,255,0.1); }
-  .cc-detail-panel { margin-top:0.5rem; background:rgba(15,20,32,0.6); border:1px solid rgba(120,160,255,0.18); border-radius:8px; padding:0.75rem; font-size:0.68rem; }
-  .cc-detail-row { display:flex; justify-content:space-between; padding:0.15rem 0; border-bottom:1px dashed rgba(148,163,184,0.12); font-family:'JetBrains Mono',monospace; }
-  .cc-detail-row span:first-child { color:#64748b; }
-  .cc-assets-list { display:flex; flex-wrap:wrap; gap:0.3rem; margin:0.4rem 0 0.5rem; }
-  .cc-asset-chip { background:rgba(148,163,184,0.1); border:1px solid rgba(148,163,184,0.2); border-radius:100px; padding:0.15rem 0.5rem; font-size:0.6rem; font-family:'JetBrains Mono',monospace; }
-  .cc-action-row { display:flex; gap:0.35rem; flex-wrap:wrap; margin-top:0.5rem; }
-  .cc-action-btn { background:rgba(120,160,255,0.08); border:1px solid rgba(120,160,255,0.25); color:#93c5fd; border-radius:6px; padding:0.3rem 0.55rem; font-size:0.62rem; cursor:pointer; font-family:'Inter',sans-serif; }
-  .cc-action-btn:hover { background:rgba(120,160,255,0.18); }
-  .cc-status-pill { font-size:0.55rem; padding:0.05rem 0.35rem; border-radius:4px; text-transform:uppercase; }
-  .cc-status-open { background:rgba(248,113,113,0.15); color:#f87171; }
-  .cc-status-acknowledged { background:rgba(251,191,36,0.15); color:#fbbf24; }
-  .cc-status-escalated { background:rgba(167,139,250,0.15); color:#c4b5fd; }
-  .cc-status-isolated { background:rgba(52,211,153,0.15); color:#34d399; }
-  .cc-prototype-note { font-size:0.58rem; color:#64748b; font-style:italic; margin-top:0.4rem; }
+  .cc-packet-row td { padding:5px 4px; border-bottom:1px solid rgba(0,212,255,0.04); }
+  .cc-packet-row:hover td { background:rgba(0,212,255,0.03); }
+  .cc-packet-row.selected td { background:rgba(0,212,255,0.08); }
+  .cc-detail-panel { margin-top:8px; background:var(--bg2); border:1px solid var(--b2); border-radius:3px; padding:10px; font-size:10px; }
+  .cc-detail-row { display:flex; justify-content:space-between; padding:2px 0; border-bottom:1px dashed rgba(0,212,255,0.08); font-family:var(--mono); font-size:9px; }
+  .cc-detail-row span:first-child { color:var(--t3); letter-spacing:1px; }
+  .cc-assets-list { display:flex; flex-wrap:wrap; gap:4px; margin:6px 0 8px; }
+  .cc-asset-chip { background:rgba(0,212,255,0.06); border:1px solid var(--b1); border-radius:2px; padding:2px 7px; font-size:8px; font-family:var(--mono); color:var(--t2); }
+  .cc-action-row { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
+  .cc-action-btn { background:rgba(0,212,255,0.08); border:1px solid var(--b2); color:var(--accent); border-radius:2px; padding:5px 9px; font-size:8px; letter-spacing:1px; cursor:pointer; font-family:var(--mono); transition:all 0.2s; }
+  .cc-action-btn:hover { background:rgba(0,212,255,0.18); }
+  .cc-status-pill { font-family:var(--mono); font-size:7px; letter-spacing:1px; padding:1px 6px; border-radius:2px; text-transform:uppercase; border:1px solid; }
+  .cc-status-open { border-color:rgba(255,51,51,0.35); color:#ff8888; background:rgba(255,51,51,0.08); }
+  .cc-status-acknowledged { border-color:rgba(255,136,0,0.35); color:#ffaa55; background:rgba(255,136,0,0.08); }
+  .cc-status-escalated { border-color:rgba(168,85,247,0.35); color:#c9a3fa; background:rgba(168,85,247,0.08); }
+  .cc-status-isolated { border-color:rgba(0,204,102,0.35); color:var(--ok); background:rgba(0,204,102,0.08); }
+  .cc-prototype-note { font-family:var(--mono); font-size:8px; color:var(--t3); font-style:italic; margin-top:6px; }
 
   /* OSINT panel */
   .cc-osint-section { margin-bottom:0.9rem; }
-  .cc-osint-title { font-size:0.68rem; font-weight:600; color:#93c5fd; margin-bottom:0.35rem; }
-  .cc-osint-card { background:rgba(15,20,32,0.6); border:1px solid rgba(120,160,255,0.15); border-radius:8px; padding:0.65rem; font-size:0.68rem; line-height:1.55; color:#cbd5e1; }
-  .cc-osint-card a { color:#93c5fd; }
-  .cc-osint-card ul { margin:0.3rem 0 0 1rem; padding:0; }
+  .cc-osint-title { font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:1px; color:var(--accent); margin-bottom:5px; }
+  .cc-osint-card { background:var(--bg2); border:1px solid var(--b1); border-radius:3px; padding:10px; font-size:11px; line-height:1.55; color:var(--t2); }
+  .cc-osint-card a { color:var(--accent); }
+  .cc-osint-card ul { margin:5px 0 0 1rem; padding:0; }
   .cc-osint-card li { margin-bottom:0.2rem; }
-  .cc-osint-warning { background:rgba(127,29,29,0.2); border:1px solid rgba(248,113,113,0.3); border-radius:6px; padding:0.5rem; font-size:0.62rem; color:#fca5a5; margin-top:0.5rem; }
+  .cc-osint-warning { background:rgba(255,51,51,0.08); border:1px solid rgba(255,51,51,0.25); border-radius:3px; padding:8px; font-size:9px; color:#ff9999; margin-top:8px; }
 
   /* Video wall mode — larger everything for readability at a distance */
-  #cc-root.cc-videowall #cc-header h1 { font-size:1.4rem; }
+  #cc-root.cc-videowall .cc-brand-name { font-size:22px; }
   #cc-root.cc-videowall #cc-status,
-  #cc-root.cc-videowall .cc-vw-toggle { font-size:1rem; }
+  #cc-root.cc-videowall .cc-vw-toggle { font-size:12px; }
   #cc-root.cc-videowall #cc-main { grid-template-columns:1fr 480px; }
-  #cc-root.cc-videowall .cc-panel-title { font-size:1.05rem; }
-  #cc-root.cc-videowall .cc-side-sub { font-size:0.9rem; }
+  #cc-root.cc-videowall .cc-panel-title { font-size:13px; }
+  #cc-root.cc-videowall .cc-side-sub { font-size:11px; }
   #cc-root.cc-videowall .cc-flight-row,
   #cc-root.cc-videowall .cc-cyber-row,
-  #cc-root.cc-videowall .cc-threat-row { font-size:1rem; padding:0.6rem 0.3rem; }
+  #cc-root.cc-videowall .cc-threat-row { font-size:12px; padding:8px 3px; }
   #cc-root.cc-videowall .cc-scroll { max-height:380px; }
 `
 document.head.appendChild(style)
